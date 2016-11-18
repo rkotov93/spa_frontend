@@ -2,7 +2,7 @@ import React, { Component } from "react"
 import Post from "./Post"
 import PostForm from "./PostForm"
 import { Panel } from "react-bootstrap"
-import "./stylesheets/application.scss"
+import "../stylesheets/application.scss"
 
 export default class App extends Component {
   render() {
