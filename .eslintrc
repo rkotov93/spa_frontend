@@ -29,7 +29,7 @@ rules:
   prefer-const: [2]
   no-bitwise: [2]
 
-  object-curly-spacing: [2, "never"]
+  object-curly-spacing: [2, "always"]
   array-bracket-spacing: [2, "never"]
   space-unary-ops: [2, {"words": true, "nonwords": false}]
   keyword-spacing: [2, {"after": true}]
