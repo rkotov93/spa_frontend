@@ -7,17 +7,28 @@ import Post from "./Post"
 import PostForm from "./PostForm"
 
 export default class App extends Component {
+  constructor() {
+    super()
+
+    this.state = {
+      posts: []
+    }
+  }
+
+  componentWillMount() {
+    fetch("http://localhost:3000/api/v1/posts.json").then((response) => {
+      return response.json()
+    }).then((posts) => {
+      this.setState({ posts: posts || [] })
+    })
+  }
+
   render() {
-    const news = [
-      { id: 1, name: "News1", description: "Description of News1" },
-      { id: 2, name: "News2", description: "Description of News2" },
-      { id: 3, name: "News3", description: "Description of News3" }
-    ]
     return (
       <div className="container-fluid">
         <Panel id="news_panel" header="News">
           {
-            news.map(post => {
+            this.state.posts.map(post => {
               return <Post key={`post_${post.id}`} {...post} />
             })
           }
