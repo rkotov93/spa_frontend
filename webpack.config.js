@@ -5,7 +5,6 @@ module.exports = {
   entry: [
     "babel-polyfill",
     "webpack-hot-middleware/client?reload=true",
-    "bootstrap-loader",
     "./src/index.js"
   ],
   output: {
@@ -41,10 +40,6 @@ module.exports = {
         test: /\.jsx?$/,
         exclude: [path.resolve(__dirname, "node_modules")],
         loaders: ["babel"]
-      },
-      {
-        test:/bootstrap-sass[\/\\]assets[\/\\]javascripts[\/\\]/,
-        loader: 'imports?jQuery=jquery'
       },
       {
         test: /\.png$/,

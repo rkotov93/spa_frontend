@@ -1,8 +1,10 @@
 import React, { Component } from "react"
-import Post from "./Post"
-import PostForm from "./PostForm"
+
 import { Panel } from "react-bootstrap"
 import "../stylesheets/application.scss"
+
+import Post from "./Post"
+import PostForm from "./PostForm"
 
 export default class App extends Component {
   render() {
