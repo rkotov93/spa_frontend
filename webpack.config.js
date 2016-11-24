@@ -3,6 +3,7 @@ var webpack = require("webpack")
 
 module.exports = {
   entry: [
+    'whatwg-fetch',
     "babel-polyfill",
     "webpack-hot-middleware/client?reload=true",
     "./src/index.js"
