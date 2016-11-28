@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 
-import { Panel } from "react-bootstrap"
+import { Grid, Row, Col, Panel } from "react-bootstrap"
 import "../stylesheets/application.scss"
 
 import Post from "./Post"
@@ -16,6 +16,29 @@ export default class App extends Component {
   }
 
   componentWillMount() {
+    this._fetchPosts()
+  }
+
+  render() {
+    return (
+      <Grid fluid={true}>
+        <Row>
+          <Col md={12}>
+            <Panel id="news_panel" header="News">
+              {
+                this.state.posts.map(post => {
+                  return <Post key={`post_${post.id}`} {...post} />
+                })
+              }
+              <PostForm addNewPost={this._addNewPost.bind(this)} />
+            </Panel>
+          </Col>
+        </Row>
+      </Grid>
+    )
+  }
+
+  _fetchPosts() {
     fetch("http://localhost:3000/api/v1/posts.json").then((response) => {
       return response.json()
     }).then((posts) => {
@@ -23,18 +46,9 @@ export default class App extends Component {
     })
   }
 
-  render() {
-    return (
-      <div className="container-fluid">
-        <Panel id="news_panel" header="News">
-          {
-            this.state.posts.map(post => {
-              return <Post key={`post_${post.id}`} {...post} />
-            })
-          }
-          <PostForm />
-        </Panel>
-      </div>
-    )
+  _addNewPost(newPost) {
+    const posts = this.state.posts
+    posts.unshift(newPost)
+    this.setState({ posts: posts  })
   }
 }
