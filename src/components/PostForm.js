@@ -7,18 +7,8 @@ export default class PostForm extends Component {
   constructor() {
     super()
     this.state = {
-      values: {
-        title: "",
-        body: ""
-      },
-      validity: {
-        title: false,
-        body: false
-      },
-      touched: {
-        title: false,
-        body: false
-      }
+      title: { value: "", validity: false, touched: false },
+      body: { value: "", validity: false, touched: false }
     }
   }
 
@@ -64,7 +54,7 @@ export default class PostForm extends Component {
   }
 
   _isFormValid() {
-    return this.state.validity.title && this.state.validity.body
+    return this.state.title.validity && this.state.body.validity
   }
 
   _handleInputChange(e) {
@@ -72,16 +62,9 @@ export default class PostForm extends Component {
     const value = e.target.value
     const validity = this._validate(field, value)
 
-    const valuesState = this.state.values
-    valuesState[field] = value
-
-    const validityState = this.state.validity
-    validityState[field] = validity
-
-    const touchedState = this.state.touched
-    touchedState[field] = true
-
-    this.setState({ values: valuesState, validity: validityState, touched: touchedState })
+    const newState = {}
+    newState[field] = { value: value, validity: validity, touched: true }
+    this.setState(newState)
   }
 
   _validate(field, value) {
@@ -101,16 +84,16 @@ export default class PostForm extends Component {
   }
 
   _titleInputValidationState() {
-    const touched = this.state.touched.title
-    const valid = this.state.validity.title
+    const touched = this.state.title.touched
+    const valid = this.state.title.validity
 
     if (valid) return "success"
     else if (touched && !valid) return "error"
   }
 
   _bodyInputValidationState() {
-    const touched = this.state.touched.body
-    const valid = this.state.validity.body
+    const touched = this.state.body.touched
+    const valid = this.state.body.validity
 
     if (valid) return "success"
     else if (touched) return "error"
@@ -120,18 +103,8 @@ export default class PostForm extends Component {
     ReactDOM.findDOMNode(this.refs.titleInput).value = ""
     ReactDOM.findDOMNode(this.refs.bodyInput).value = ""
     this.setState({
-      values: {
-        title: "",
-        body: ""
-      },
-      validity: {
-        title: false,
-        body: false
-      },
-      touched: {
-        title: false,
-        body: false
-      }
+      title: { value: "", validity: false, touched: false },
+      body: { value: "", validity: false, touched: false }
     })
   }
 
