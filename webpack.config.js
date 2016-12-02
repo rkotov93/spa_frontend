@@ -3,7 +3,7 @@ var webpack = require("webpack")
 
 module.exports = {
   entry: [
-    'whatwg-fetch',
+    "whatwg-fetch",
     "babel-polyfill",
     "webpack-hot-middleware/client?reload=true",
     "./src/index.js"
@@ -18,7 +18,12 @@ module.exports = {
     // Webpack 2.0 fixed this mispelling
     // new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin()
+    new webpack.NoErrorsPlugin(),
+    new webpack.DefinePlugin({
+      "process.env": {
+        "API_HOST": JSON.stringify("http://localhost:3000/")
+      }
+    })
   ],
   module: {
     preLoaders: [
@@ -52,19 +57,19 @@ module.exports = {
       },
       {
         test: /\.(woff|woff2)(\?v=\d+\.\d+\.\d+)?$/,
-        loader: 'url?limit=10000&mimetype=application/font-woff'
+        loader: "url?limit=10000&mimetype=application/font-woff"
       },
       {
         test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
-        loader: 'url?limit=10000&mimetype=application/octet-stream'
+        loader: "url?limit=10000&mimetype=application/octet-stream"
       },
       {
         test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
-        loader: 'file'
+        loader: "file"
       },
       {
         test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-        loader: 'url?limit=10000&mimetype=image/svg+xml'
+        loader: "url?limit=10000&mimetype=image/svg+xml"
       }
     ]
   },

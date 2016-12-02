@@ -39,7 +39,7 @@ export default class App extends Component {
   }
 
   _fetchPosts() {
-    fetch("http://localhost:3000/api/v1/posts.json").then((response) => {
+    fetch(`${process.env.API_HOST}/api/v1/posts.json`).then((response) => {
       return response.json()
     }).then((posts) => {
       this.setState({ posts: posts || [] })

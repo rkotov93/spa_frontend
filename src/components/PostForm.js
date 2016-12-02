@@ -136,7 +136,7 @@ export default class PostForm extends Component {
   }
 
   _handleSubmit() {
-    fetch("http://localhost:3000/api/v1/posts", {
+    fetch(`${process.env.API_HOST}/api/v1/posts`, {
       method: "POST",
       body: new FormData(this.refs.newPostForm)
     }).then(response => {
