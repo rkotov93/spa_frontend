@@ -5,7 +5,6 @@ module.exports = {
   entry: [
     "whatwg-fetch",
     "babel-polyfill",
-    "webpack-hot-middleware/client?reload=true",
     "./src/index.js"
   ],
   output: {
@@ -16,13 +15,10 @@ module.exports = {
   plugins: [
     // Webpack 1.0
     new webpack.optimize.OccurenceOrderPlugin(),
-    // Webpack 2.0 fixed this mispelling
-    // new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(),
     new webpack.DefinePlugin({
       "process.env": {
-        "API_HOST": JSON.stringify("http://localhost:3000/")
+        "API_HOST": JSON.stringify("http://35.156.233.82/")
       }
     })
   ],

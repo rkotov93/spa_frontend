@@ -5,7 +5,8 @@
   "main": "webpack.config.js",
   "scripts": {
     "start": "node server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "deploy": "NODE_ENV=production webpack --config ./webpack.production.config.js && aws s3 cp public s3://rkotov93-spa-frontend.com --recursive --region=eu-central-1"
   },
   "repository": {
     "type": "git",
