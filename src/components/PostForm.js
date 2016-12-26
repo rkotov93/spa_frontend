@@ -13,6 +13,7 @@ export default class PostForm extends Component {
   }
 
   render() {
+    const { store } = this.context
     return (
       <Row>
         <Col md={12}>
@@ -48,6 +49,18 @@ export default class PostForm extends Component {
               Create
             </Button>
           </form>
+          <br />
+          <Button
+            bsStyle="success"
+            style={{ width: "100%" }}
+            onClick={() => {
+              store.dispatch({
+                type: "ADD_POST"
+              })
+            }}
+          >
+            TEST
+          </Button>
         </Col>
       </Row>
     )
@@ -119,4 +132,7 @@ export default class PostForm extends Component {
       this.props.addNewPost(newPost)
     })
   }
+}
+PostForm.contextTypes = {
+  store: React.PropTypes.object
 }
