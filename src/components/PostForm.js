@@ -1,138 +1,72 @@
-import React, { Component } from "react"
-import ReactDOM from "react-dom"
-
+import React from "react"
+import { findDOMNode } from "react-dom"
 import { Row, Col, Button, FormGroup, FormControl } from "react-bootstrap"
 
-export default class PostForm extends Component {
-  constructor() {
-    super()
-    this.state = {
-      title: { value: "", validity: false, touched: false },
-      body: { value: "", validity: false, touched: false }
-    }
-  }
+const PostForm = ({ title, body, onTitleChange, onBodyChange, onFormSubmit, refreshForm }) => {
+  let titleInput
+  let bodyInput
 
-  render() {
-    const { store } = this.context
-    return (
-      <Row>
-        <Col md={12}>
-          <h3>Add your post</h3>
+  return (
+    <Row>
+      <Col md={12}>
+        <h3>Add your post</h3>
 
-          <form ref="newPostForm">
-            <FormGroup validationState={this._titleInputValidationState()}>
-              <FormControl
-                ref="titleInput"
-                type="text"
-                placeholder="Post title"
-                name="post[title]"
-                onChange={this._handleInputChange.bind(this)}
-                data-name="title"
-              />
-            </FormGroup>
-            <FormGroup validationState={this._bodyInputValidationState()}>
-              <FormControl
-                ref="bodyInput"
-                componentClass="textarea"
-                placeholder="Content"
-                name="post[body]"
-                onChange={this._handleInputChange.bind(this)}
-                data-name="body"
-              />
-            </FormGroup>
-            <Button
-              bsStyle="primary"
-              style={{ width: "100%" }}
-              onClick={this._handleSubmit.bind(this)}
-              disabled={!this._isFormValid()}
-            >
-              Create
-            </Button>
-          </form>
-          <br />
+        <form>
+          <FormGroup validationState={titleInputValidationState(title.value, title.touched)}>
+            <FormControl
+              ref={node => titleInput = findDOMNode(node)}
+              type="text"
+              placeholder="Post title"
+              name="post[title]"
+              onChange={() => onTitleChange(titleInput.value)}
+              data-name="title"
+            />
+          </FormGroup>
+          <FormGroup validationState={bodyInputValidationState(body.value, body.touched)}>
+            <FormControl
+              ref={node => bodyInput = findDOMNode(node)}
+              componentClass="textarea"
+              placeholder="Content"
+              name="post[body]"
+              onChange={() => onBodyChange(bodyInput.value)}
+              data-name="body"
+            />
+          </FormGroup>
           <Button
-            bsStyle="success"
+            bsStyle="primary"
             style={{ width: "100%" }}
             onClick={() => {
-              store.dispatch({
-                type: "ADD_POST"
-              })
+              onFormSubmit({ title: title.value, body: body.value })
+              titleInput.value = ""
+              bodyInput.value = ""
+              refreshForm()
             }}
+            disabled={!(isTitleValid(title.value) && isBodyValid(body.value))}
           >
-            TEST
+            Create
           </Button>
-        </Col>
-      </Row>
-    )
-  }
-
-  _isFormValid() {
-    return this.state.title.validity && this.state.body.validity
-  }
-
-  _handleInputChange(e) {
-    const field = e.target.dataset["name"]
-    const value = e.target.value
-    const validity = this._validate(field, value)
-
-    const newState = {}
-    newState[field] = { value: value, validity: validity, touched: true }
-    this.setState(newState)
-  }
-
-  _validate(field, value) {
-    if (field === "title")
-      return this._isTitleValid(value)
-    else if (field === "body")
-      return this._isBodyValid(value)
-    return false
-  }
-
-  _isTitleValid(value) {
-    return value.length > 0 && value.length <= 120
-  }
-
-  _isBodyValid(value) {
-    return value.length > 0
-  }
-
-  _titleInputValidationState() {
-    const touched = this.state.title.touched
-    const valid = this.state.title.validity
-
-    if (valid) return "success"
-    else if (touched && !valid) return "error"
-  }
-
-  _bodyInputValidationState() {
-    const touched = this.state.body.touched
-    const valid = this.state.body.validity
-
-    if (valid) return "success"
-    else if (touched) return "error"
-  }
-
-  _clearInputs() {
-    ReactDOM.findDOMNode(this.refs.titleInput).value = ""
-    ReactDOM.findDOMNode(this.refs.bodyInput).value = ""
-    this.setState({
-      title: { value: "", validity: false, touched: false },
-      body: { value: "", validity: false, touched: false }
-    })
-  }
-
-  _handleSubmit() {
-    fetch(`${process.env.API_HOST}/api/v1/posts`, {
-      method: "POST",
-      body: new FormData(this.refs.newPostForm)
-    }).then(response => {
-      this._clearInputs()
-      return response.json()
-    }).then(newPost => {
-      this.props.addNewPost(newPost)
-    })
-  }
+        </form>
+      </Col>
+    </Row>
+  )
 }
-PostForm.contextTypes = {
-  store: React.PropTypes.object
+
+const isTitleValid = (value) => {
+  return value.length > 0 && value.length <= 120
 }
+
+const isBodyValid = (value) => {
+  return value.length > 0
+}
+
+const titleInputValidationState = (value, touched) => {
+  if (isTitleValid(value)) return "success"
+  else if (touched) return "error"
+}
+
+const bodyInputValidationState = (value, touched) => {
+  if (isBodyValid(value)) return "success"
+  else if (touched) return "error"
+}
+
+export default PostForm
