@@ -1,29 +1,55 @@
-export const initPosts = (posts) => {
+import { refreshForm } from "./PostFormActions"
+
+const requestPosts = () => {
   return {
-    type: "INIT_POSTS",
+    type: "FETCH_POSTS"
+  }
+}
+
+const receivePosts = (posts) => {
+  return {
+    type: "FETCH_POSTS",
+    status: "success",
     posts
   }
 }
 
 export const fetchPosts = () => {
   return (dispatch) => {
-    fetch(`${process.env.API_HOST}/api/v1/posts.json`).then((response) => {
+    dispatch(requestPosts())
+    return fetch(`${process.env.API_HOST}/api/v1/posts.json`).then((response) => {
       return response.json()
     }).then((posts) => {
-      dispatch(initPosts(posts || []))
+      dispatch(receivePosts(posts || []))
     })
   }
 }
 
-export const addPost = (post) => {
+const addPostRequest = () => {
+  return {
+    type: "ADD_POST"
+  }
+}
+
+const addPostSuccess = (post) => {
   return {
     type: "ADD_POST",
+    status: "success",
     post
   }
 }
 
-export const requestPostAdd = (post) => {
+const addPostFailure = (message) => {
+  return {
+    type: "ADD_POST",
+    status: "failure",
+    message
+  }
+}
+
+export const addPost = (post) => {
   return (dispatch) => {
+    dispatch(addPostRequest())
     fetch(`${process.env.API_HOST}/api/v1/posts.json`, {
       method: "POST",
       headers: {
@@ -33,20 +59,41 @@ export const requestPostAdd = (post) => {
     }).then(response => {
       return response.json()
     }).then(post => {
-      dispatch(addPost(post))
+      if (post.errors)
+        dispatch(addPostFailure(post.errors))
+      else {
+        dispatch(addPostSuccess(post))
+        dispatch(refreshForm())
+      }
     })
   }
 }
 
-export const destroyPost = (id) => {
+const destroyPostRequest = () => {
+  return {
+    type: "DESTROY_POST"
+  }
+}
+
+const destroyPostSuccess = (id) => {
   return {
     type: "DESTROY_POST",
+    status: "success",
     id
+  }
+}
+
+const destroyPostFailure = (message) => {
+  return {
+    type: "DESTROY_POST",
+    status: "failure",
+    message
   }
 }
 
 export const requestPostDestroy = (id) => {
   return (dispatch) => {
+    dispatch(destroyPostRequest())
     fetch(`${process.env.API_HOST}/api/v1/posts/${id}.json`, {
       method: "DELETE",
       headers: {
@@ -56,7 +103,10 @@ export const requestPostDestroy = (id) => {
     }).then(response => {
       return response.json()
     }).then(post => {
-      dispatch(destroyPost(post.id))
+      if (post.errors)
+        dispatch(destroyPostFailure(post.errors))
+      else
+        dispatch(destroyPostSuccess(post.id))
     })
   }
 }

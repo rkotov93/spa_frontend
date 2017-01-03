@@ -2,7 +2,7 @@ import React from "react"
 import { findDOMNode } from "react-dom"
 import { Row, Col, Button, FormGroup, FormControl } from "react-bootstrap"
 
-const PostForm = ({ title, body, onTitleChange, onBodyChange, onFormSubmit, refreshForm }) => {
+const PostForm = ({ title, body, isFetching, message, onTitleChange, onBodyChange, onFormSubmit }) => {
   let titleInput
   let bodyInput
 
@@ -12,6 +12,7 @@ const PostForm = ({ title, body, onTitleChange, onBodyChange, onFormSubmit, refr
         <h3>Add your post</h3>
 
         <form>
+          {errorMessages(message)}
           <FormGroup validationState={titleInputValidationState(title.value, title.touched)}>
             <FormControl
               ref={node => titleInput = findDOMNode(node)}
@@ -20,6 +21,8 @@ const PostForm = ({ title, body, onTitleChange, onBodyChange, onFormSubmit, refr
               name="post[title]"
               onChange={() => onTitleChange(titleInput.value)}
               data-name="title"
+              value={title.value}
+              disabled={isFetching}
             />
           </FormGroup>
           <FormGroup validationState={bodyInputValidationState(body.value, body.touched)}>
@@ -30,6 +33,8 @@ const PostForm = ({ title, body, onTitleChange, onBodyChange, onFormSubmit, refr
               name="post[body]"
               onChange={() => onBodyChange(bodyInput.value)}
               data-name="body"
+              value={body.value}
+              disabled={isFetching}
             />
           </FormGroup>
           <Button
@@ -37,11 +42,8 @@ const PostForm = ({ title, body, onTitleChange, onBodyChange, onFormSubmit, refr
             style={{ width: "100%" }}
             onClick={() => {
               onFormSubmit({ title: title.value, body: body.value })
-              titleInput.value = ""
-              bodyInput.value = ""
-              refreshForm()
             }}
-            disabled={!(isTitleValid(title.value) && isBodyValid(body.value))}
+            disabled={!(isTitleValid(title.value) && isBodyValid(body.value)) || isFetching}
           >
             Create
           </Button>
@@ -67,6 +69,19 @@ const titleInputValidationState = (value, touched) => {
 const bodyInputValidationState = (value, touched) => {
   if (isBodyValid(value)) return "success"
   else if (touched) return "error"
+}
+
+const errorMessages = (message) => {
+  if (message)
+    return (
+      <div>
+        {
+          Object.keys(message).map(field => {
+            return (<p key={field} style={{ color: "red" }}>{field} {message[field]}</p>)
+          })
+        }
+      </div>
+    )
 }
 
 export default PostForm
