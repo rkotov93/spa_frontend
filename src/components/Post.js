@@ -1,24 +1,32 @@
-import React, { Component } from "react"
-import { Row, Col } from "react-bootstrap"
+import React from "react"
+import { Row, Col, Button } from "react-bootstrap"
 
-export default class Post extends Component {
-  render() {
-    return (
-      <Row id={this.props.id} className="news-post">
-        <Col md={12}>
-          <h3 className="post-title">{this.props.title}</h3>
-          <p className="post-body">{this.props.body}</p>
-          <p className="post-author">{this.props.author}</p>
-          <hr />
-        </Col>
-      </Row>
-    )
-  }
+const Post = ({ id, title, body, author, onDestroy }) => {
+  return (
+    <Row id={id} className="news-post">
+      <Col md={12}>
+        <Button
+          className="close"
+          onClick={() => {
+            onDestroy(id)
+          }}
+        >
+          <span aria-hidden="true">&times;</span>
+        </Button>
+        <h3 className="post-title">{title}</h3>
+        <p className="post-body">{body}</p>
+        <p className="post-author">{author}</p>
+        <hr />
+      </Col>
+    </Row>
+  )
 }
 
 Post.propTypes = {
   id: React.PropTypes.number.isRequired,
   title: React.PropTypes.string.isRequired,
-  body: React.PropTypes.string,
+  body: React.PropTypes.string.isRequired,
   author: React.PropTypes.string
 }
+
+export default Post
