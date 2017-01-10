@@ -1,7 +1,8 @@
 import React from "react"
 import { Row, Col, Button } from "react-bootstrap"
+import { Link } from "react-router"
 
-const Post = ({ id, title, body, author, onDestroy }) => {
+const PostItem = ({ id, title, body, author, onDestroy }) => {
   return (
     <Row id={id} className="news-post">
       <Col md={12}>
@@ -13,7 +14,9 @@ const Post = ({ id, title, body, author, onDestroy }) => {
         >
           <span aria-hidden="true">&times;</span>
         </Button>
-        <h3 className="post-title">{title}</h3>
+        <Link to={`/posts/${id}`}>
+          <h3 className="post-title">{title}</h3>
+        </Link>
         <p className="post-body">{body}</p>
         <p className="post-author">{author}</p>
         <hr />
@@ -22,11 +25,11 @@ const Post = ({ id, title, body, author, onDestroy }) => {
   )
 }
 
-Post.propTypes = {
+PostItem.propTypes = {
   id: React.PropTypes.number.isRequired,
   title: React.PropTypes.string.isRequired,
   body: React.PropTypes.string.isRequired,
   author: React.PropTypes.string
 }
 
-export default Post
+export default PostItem

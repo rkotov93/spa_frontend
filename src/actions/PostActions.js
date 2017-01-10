@@ -1,5 +1,17 @@
 import { refreshForm } from "./PostFormActions"
 
+export const postsListEnter = (dispatch) => {
+  return () => {
+    fetchPosts()(dispatch)
+  }
+}
+
+export const postPageEnter = (dispatch) => {
+  return (nextState) => {
+    fetchPost(nextState.params.id)(dispatch)
+  }
+}
+
 const requestPosts = () => {
   return {
     type: "FETCH_POSTS"
@@ -21,6 +33,31 @@ export const fetchPosts = () => {
       return response.json()
     }).then((posts) => {
       dispatch(receivePosts(posts || []))
+    })
+  }
+}
+
+const fetchPostRequest = () => {
+  return {
+    type: "FETCH_POST"
+  }
+}
+
+const fetchPostSuccess = (post) => {
+  return {
+    type: "FETCH_POST",
+    status: "success",
+    post
+  }
+}
+
+export const fetchPost = (id) => {
+  return (dispatch) => {
+    dispatch(fetchPostRequest())
+    return fetch(`${process.env.API_HOST}/api/v1/posts/${id}.json`).then((response) => {
+      return response.json()
+    }).then((post) => {
+      dispatch(fetchPostSuccess(post))
     })
   }
 }

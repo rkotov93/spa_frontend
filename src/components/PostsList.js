@@ -1,14 +1,16 @@
 import React from "react"
-import Post from "../components/Post"
+import PostItem from "../components/PostItem"
+import PostForm from "../containers/PostForm"
 
 const PostsList = ({ posts, onDestroy }) => {
   return (
     <div>
       {
         posts.map(post => {
-          return <Post key={`post_${post.id}`} onDestroy={onDestroy} {...post} />
+          return <PostItem key={`post_${post.id}`} onDestroy={onDestroy} {...post} />
         })
       }
+      <PostForm />
     </div>
   )
 }
