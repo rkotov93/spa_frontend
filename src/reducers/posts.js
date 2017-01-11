@@ -29,6 +29,7 @@ const fetchPosts = (state, action) => {
   default:
     return {
       ...state,
+      items: [],
       isFetching: true
     }
   }
