@@ -1,6 +1,6 @@
 import { connect } from "react-redux"
 import PostPage from "../components/PostPage"
-import { requestPostDestroy } from "../actions/PostActions"
+import { destroyPost } from "../actions/PostActions"
 
 const mapStateToProps = (state) => {
   return {
@@ -10,8 +10,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onDestroy: (id) => {
-      dispatch(requestPostDestroy(id))
+    onDestroy: (id, shouldRedirect) => {
+      dispatch(destroyPost(id, shouldRedirect))
     }
   }
 }

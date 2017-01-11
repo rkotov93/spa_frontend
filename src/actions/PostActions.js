@@ -1,3 +1,4 @@
+import { browserHistory } from "react-router"
 import { refreshForm } from "./PostFormActions"
 
 export const postsListEnter = (dispatch) => {
@@ -128,7 +129,7 @@ const destroyPostFailure = (message) => {
   }
 }
 
-export const requestPostDestroy = (id) => {
+export const destroyPost = (id, shouldRedirect = false) => {
   return (dispatch) => {
     dispatch(destroyPostRequest())
     fetch(`${process.env.API_HOST}/api/v1/posts/${id}.json`, {
@@ -143,7 +144,10 @@ export const requestPostDestroy = (id) => {
       if (post.errors)
         dispatch(destroyPostFailure(post.errors))
       else
-        dispatch(destroyPostSuccess(post.id))
+        if (shouldRedirect)
+          browserHistory.push("/")
+        else
+          dispatch(destroyPostSuccess(post.id))
     })
   }
 }

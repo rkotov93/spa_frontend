@@ -8,7 +8,7 @@ const PostPage = ({ id, title, body, author, onDestroy }) => {
         <Button
           className="close"
           onClick={() => {
-            onDestroy(id)
+            onDestroy(id, true)
           }}
         >
           <span aria-hidden="true">&times;</span>
