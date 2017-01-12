@@ -1,6 +1,6 @@
 import { connect } from "react-redux"
 import PostsList from "../components/PostsList"
-import { requestPostDestroy } from "../actions/PostActions"
+import { destroyPost } from "../actions/PostActions"
 
 const mapStateToProps = (state) => {
   return {
@@ -11,7 +11,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     onDestroy: (id) => {
-      dispatch(requestPostDestroy(id))
+      dispatch(destroyPost(id))
     }
   }
 }

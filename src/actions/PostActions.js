@@ -1,4 +1,17 @@
+import { browserHistory } from "react-router"
 import { refreshForm } from "./PostFormActions"
+
+export const postsListEnter = (dispatch) => {
+  return () => {
+    fetchPosts()(dispatch)
+  }
+}
+
+export const postPageEnter = (dispatch) => {
+  return (nextState) => {
+    fetchPost(nextState.params.id)(dispatch)
+  }
+}
 
 const requestPosts = () => {
   return {
@@ -21,6 +34,31 @@ export const fetchPosts = () => {
       return response.json()
     }).then((posts) => {
       dispatch(receivePosts(posts || []))
+    })
+  }
+}
+
+const fetchPostRequest = () => {
+  return {
+    type: "FETCH_POST"
+  }
+}
+
+const fetchPostSuccess = (post) => {
+  return {
+    type: "FETCH_POST",
+    status: "success",
+    post
+  }
+}
+
+export const fetchPost = (id) => {
+  return (dispatch) => {
+    dispatch(fetchPostRequest())
+    return fetch(`${process.env.API_HOST}/api/v1/posts/${id}.json`).then((response) => {
+      return response.json()
+    }).then((post) => {
+      dispatch(fetchPostSuccess(post))
     })
   }
 }
@@ -91,7 +129,7 @@ const destroyPostFailure = (message) => {
   }
 }
 
-export const requestPostDestroy = (id) => {
+export const destroyPost = (id, shouldRedirect = false) => {
   return (dispatch) => {
     dispatch(destroyPostRequest())
     fetch(`${process.env.API_HOST}/api/v1/posts/${id}.json`, {
@@ -106,7 +144,10 @@ export const requestPostDestroy = (id) => {
       if (post.errors)
         dispatch(destroyPostFailure(post.errors))
       else
-        dispatch(destroyPostSuccess(post.id))
+        if (shouldRedirect)
+          browserHistory.push("/")
+        else
+          dispatch(destroyPostSuccess(post.id))
     })
   }
 }
