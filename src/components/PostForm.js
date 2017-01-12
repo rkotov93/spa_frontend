@@ -1,6 +1,6 @@
-import React from "react"
-import { findDOMNode } from "react-dom"
-import { Row, Col, Button, FormGroup, FormControl } from "react-bootstrap"
+import React from 'react'
+import { findDOMNode } from 'react-dom'
+import { Row, Col, Button, FormGroup, FormControl } from 'react-bootstrap'
 
 const PostForm = ({ title, body, isFetching, message, onTitleChange, onBodyChange, onFormSubmit }) => {
   let titleInput
@@ -16,11 +16,11 @@ const PostForm = ({ title, body, isFetching, message, onTitleChange, onBodyChang
           <FormGroup validationState={titleInputValidationState(title.value, title.touched)}>
             <FormControl
               ref={node => titleInput = findDOMNode(node)}
-              type="text"
-              placeholder="Post title"
-              name="post[title]"
+              type='text'
+              placeholder='Post title'
+              name='post[title]'
               onChange={() => onTitleChange(titleInput.value)}
-              data-name="title"
+              data-name='title'
               value={title.value}
               disabled={isFetching}
             />
@@ -28,18 +28,18 @@ const PostForm = ({ title, body, isFetching, message, onTitleChange, onBodyChang
           <FormGroup validationState={bodyInputValidationState(body.value, body.touched)}>
             <FormControl
               ref={node => bodyInput = findDOMNode(node)}
-              componentClass="textarea"
-              placeholder="Content"
-              name="post[body]"
+              componentClass='textarea'
+              placeholder='Content'
+              name='post[body]'
               onChange={() => onBodyChange(bodyInput.value)}
-              data-name="body"
+              data-name='body'
               value={body.value}
               disabled={isFetching}
             />
           </FormGroup>
           <Button
-            bsStyle="primary"
-            style={{ width: "100%" }}
+            bsStyle='primary'
+            style={{ width: '100%' }}
             onClick={() => {
               onFormSubmit({ title: title.value, body: body.value })
             }}
@@ -62,13 +62,13 @@ const isBodyValid = (value) => {
 }
 
 const titleInputValidationState = (value, touched) => {
-  if (isTitleValid(value)) return "success"
-  else if (touched) return "error"
+  if (isTitleValid(value)) return 'success'
+  else if (touched) return 'error'
 }
 
 const bodyInputValidationState = (value, touched) => {
-  if (isBodyValid(value)) return "success"
-  else if (touched) return "error"
+  if (isBodyValid(value)) return 'success'
+  else if (touched) return 'error'
 }
 
 const errorMessages = (message) => {
@@ -77,7 +77,7 @@ const errorMessages = (message) => {
       <div>
         {
           Object.keys(message).map(field => {
-            return (<p key={field} style={{ color: "red" }}>{field} {message[field]}</p>)
+            return (<p key={field} style={{ color: 'red' }}>{field} {message[field]}</p>)
           })
         }
       </div>

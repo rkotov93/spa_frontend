@@ -1,7 +1,7 @@
-import { handleTitleInputChange, handleBodyInputChange } from "../actions/PostFormActions"
-import { addPost } from "../actions/PostActions"
-import { connect } from "react-redux"
-import PostForm from "../components/PostForm"
+import { handleTitleInputChange, handleBodyInputChange } from '../actions/PostFormActions'
+import { addPost } from '../actions/PostActions'
+import { connect } from 'react-redux'
+import PostForm from '../components/PostForm'
 
 const mapStateToProps = (state) => {
   return {

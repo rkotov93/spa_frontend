@@ -6,13 +6,13 @@ const initialState = {
 
 const posts = (state = initialState, action) => {
   switch (action.type) {
-  case "FETCH_POSTS":
+  case 'FETCH_POSTS':
     return fetchPosts(state, action)
-  case "FETCH_POST":
+  case 'FETCH_POST':
     return fetchPost(state, action)
-  case "ADD_POST":
+  case 'ADD_POST':
     return addPost(state, action)
-  case "DESTROY_POST":
+  case 'DESTROY_POST':
     return destroyPost(state, action)
   default:
     return state
@@ -21,7 +21,7 @@ const posts = (state = initialState, action) => {
 
 const fetchPosts = (state, action) => {
   switch (action.status) {
-  case "success":
+  case 'success':
     return {
       items: action.posts,
       isFetching: false
@@ -37,7 +37,7 @@ const fetchPosts = (state, action) => {
 
 const fetchPost = (state, action) => {
   switch (action.status) {
-  case "success":
+  case 'success':
     return {
       current: action.post,
       isFetching: false
@@ -52,12 +52,12 @@ const fetchPost = (state, action) => {
 
 const addPost = (state, action) => {
   switch (action.status) {
-  case "success":
+  case 'success':
     return {
       items: [action.post, ...state.items],
       isFetching: false
     }
-  case "failure":
+  case 'failure':
     return {
       ...state,
       message: action.message,
@@ -73,12 +73,12 @@ const addPost = (state, action) => {
 
 const destroyPost = (state, action) => {
   switch (action.status) {
-  case "success":
+  case 'success':
     return {
       items: state.items.filter(post => post.id !== action.id),
       isFetching: false
     }
-  case "failure":
+  case 'failure':
     return {
       ...state,
       message: action.message,

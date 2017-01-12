@@ -1,5 +1,5 @@
-import { browserHistory } from "react-router"
-import { refreshForm } from "./PostFormActions"
+import { browserHistory } from 'react-router'
+import { refreshForm } from './PostFormActions'
 
 export const postsListEnter = (dispatch) => {
   return () => {
@@ -15,14 +15,14 @@ export const postPageEnter = (dispatch) => {
 
 const requestPosts = () => {
   return {
-    type: "FETCH_POSTS"
+    type: 'FETCH_POSTS'
   }
 }
 
 const receivePosts = (posts) => {
   return {
-    type: "FETCH_POSTS",
-    status: "success",
+    type: 'FETCH_POSTS',
+    status: 'success',
     posts
   }
 }
@@ -40,14 +40,14 @@ export const fetchPosts = () => {
 
 const fetchPostRequest = () => {
   return {
-    type: "FETCH_POST"
+    type: 'FETCH_POST'
   }
 }
 
 const fetchPostSuccess = (post) => {
   return {
-    type: "FETCH_POST",
-    status: "success",
+    type: 'FETCH_POST',
+    status: 'success',
     post
   }
 }
@@ -65,22 +65,22 @@ export const fetchPost = (id) => {
 
 const addPostRequest = () => {
   return {
-    type: "ADD_POST"
+    type: 'ADD_POST'
   }
 }
 
 const addPostSuccess = (post) => {
   return {
-    type: "ADD_POST",
-    status: "success",
+    type: 'ADD_POST',
+    status: 'success',
     post
   }
 }
 
 const addPostFailure = (message) => {
   return {
-    type: "ADD_POST",
-    status: "failure",
+    type: 'ADD_POST',
+    status: 'failure',
     message
   }
 }
@@ -89,9 +89,9 @@ export const addPost = (post) => {
   return (dispatch) => {
     dispatch(addPostRequest())
     fetch(`${process.env.API_HOST}/api/v1/posts.json`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json"
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({ post: post })
     }).then(response => {
@@ -109,22 +109,22 @@ export const addPost = (post) => {
 
 const destroyPostRequest = () => {
   return {
-    type: "DESTROY_POST"
+    type: 'DESTROY_POST'
   }
 }
 
 const destroyPostSuccess = (id) => {
   return {
-    type: "DESTROY_POST",
-    status: "success",
+    type: 'DESTROY_POST',
+    status: 'success',
     id
   }
 }
 
 const destroyPostFailure = (message) => {
   return {
-    type: "DESTROY_POST",
-    status: "failure",
+    type: 'DESTROY_POST',
+    status: 'failure',
     message
   }
 }
@@ -133,9 +133,9 @@ export const destroyPost = (id, shouldRedirect = false) => {
   return (dispatch) => {
     dispatch(destroyPostRequest())
     fetch(`${process.env.API_HOST}/api/v1/posts/${id}.json`, {
-      method: "DELETE",
+      method: 'DELETE',
       headers: {
-        "Content-Type": "application/json"
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({ id })
     }).then(response => {
@@ -145,7 +145,7 @@ export const destroyPost = (id, shouldRedirect = false) => {
         dispatch(destroyPostFailure(post.errors))
       else
         if (shouldRedirect)
-          browserHistory.push("/")
+          browserHistory.push('/')
         else
           dispatch(destroyPostSuccess(post.id))
     })

@@ -1,6 +1,6 @@
-import { connect } from "react-redux"
-import PostPage from "../components/PostPage"
-import { destroyPost } from "../actions/PostActions"
+import { connect } from 'react-redux'
+import PostPage from '../components/PostPage'
+import { destroyPost } from '../actions/PostActions'
 
 const mapStateToProps = (state) => {
   return {

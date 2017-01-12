@@ -1,27 +1,27 @@
 const initialState = {
   title: {
-    value: "",
+    value: '',
     touched: false
   },
   body: {
-    value: "",
+    value: '',
     touched: false
   }
 }
 
 const postForm = (state = initialState, action) => {
   switch (action.type) {
-  case "POST_FORM_TITLE_UPDATE":
+  case 'POST_FORM_TITLE_UPDATE':
     return {
       ...state,
       title: action.title
     }
-  case "POST_FORM_BODY_UPDATE":
+  case 'POST_FORM_BODY_UPDATE':
     return {
       ...state,
       body: action.body
     }
-  case "POST_FORM_REFRESH":
+  case 'POST_FORM_REFRESH':
     return initialState
   default:
     return state
