@@ -1,6 +1,6 @@
-import React from "react"
-import PostItem from "../components/PostItem"
-import PostForm from "../containers/PostForm"
+import React from 'react'
+import PostItem from '../components/PostItem'
+import PostForm from '../containers/PostForm'
 
 const PostsList = ({ posts, onDestroy }) => {
   return (
