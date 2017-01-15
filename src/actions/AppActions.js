@@ -1,4 +1,4 @@
-import { loginSuccess } from './LoginActions'
+import { loginSuccess } from './AuthenticationActions'
 
 export const appInitialize = (dispatch) => {
   return () => {

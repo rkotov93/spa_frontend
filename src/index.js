@@ -12,7 +12,7 @@ import PostPage from './containers/PostPage'
 import NoMatch from './components/NoMatch'
 
 import { appInitialize } from './actions/AppActions'
-import { loginPageEnter } from './actions/LoginActions'
+import { loginPageEnter } from './actions/AuthenticationActions'
 import { postsListEnter } from './actions/PostActions'
 import { postPageEnter } from './actions/PostActions'
 

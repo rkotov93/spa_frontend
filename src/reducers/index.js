@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux'
-import login from './login'
+import authentication from './authentication'
 import posts from './posts'
 import postForm from './post_form'
 
 const rootReducer = combineReducers({
-  login,
+  authentication,
   posts,
   postForm
 })

@@ -5,18 +5,20 @@ const initialState = {
   errorMessage: ''
 }
 
-const login = (state = initialState, action) => {
+const authentication = (state = initialState, action) => {
   switch (action.type) {
   case 'LOGIN':
-    return authenticate(state, action)
+    return login(state, action)
   case 'LOGIN_FORM_EMAIL_CHANGE':
     return emailChange(state, action)
+  case 'LOGOUT':
+    return logout()
   default:
     return state
   }
 }
 
-const authenticate = (state, action) => {
+const login = (state, action) => {
   switch (action.status) {
   case 'success':
     return {
@@ -39,6 +41,10 @@ const authenticate = (state, action) => {
   }
 }
 
+const logout = () => {
+  return initialState
+}
+
 const emailChange = (state, action) => {
   return {
     ...state,
@@ -46,4 +52,4 @@ const emailChange = (state, action) => {
   }
 }
 
-export default login
+export default authentication

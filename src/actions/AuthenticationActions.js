@@ -53,6 +53,13 @@ export const login = (creds) => {
   }
 }
 
+export const logout = () => {
+  localStorage.removeItem('jwt')
+  return {
+    type: 'LOGOUT'
+  }
+}
+
 export const handleEmailInputChange = (value) => {
   return {
     type: 'LOGIN_FORM_EMAIL_CHANGE',
