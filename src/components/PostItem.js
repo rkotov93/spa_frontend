@@ -2,7 +2,7 @@ import React from 'react'
 import { Row, Col, Button } from 'react-bootstrap'
 import { Link } from 'react-router'
 
-const PostItem = ({ id, title, body, author, onDestroy }) => {
+const PostItem = ({ id, title, body, author, onDestroy, isAuthenticated }) => {
   return (
     <Row id={id} className='news-post'>
       <Col md={12}>
@@ -12,7 +12,7 @@ const PostItem = ({ id, title, body, author, onDestroy }) => {
             onDestroy(id)
           }}
         >
-          <span aria-hidden='true'>&times;</span>
+          {isAuthenticated && <span aria-hidden='true'>&times;</span>}
         </Button>
         <Link to={`/posts/${id}`}>
           <h3 className='post-title'>{title}</h3>
