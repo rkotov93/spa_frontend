@@ -4,7 +4,8 @@ import { destroyPost } from '../actions/PostActions'
 
 const mapStateToProps = (state) => {
   return {
-    posts: state.posts.items
+    posts: state.posts.items,
+    isAuthenticated: state.authentication.isAuthenticated
   }
 }
 

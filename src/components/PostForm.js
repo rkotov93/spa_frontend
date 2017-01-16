@@ -1,5 +1,4 @@
 import React from 'react'
-import { findDOMNode } from 'react-dom'
 import { Row, Col, Button, FormGroup, FormControl } from 'react-bootstrap'
 
 const PostForm = ({ title, body, isFetching, message, onTitleChange, onBodyChange, onFormSubmit }) => {
@@ -15,7 +14,7 @@ const PostForm = ({ title, body, isFetching, message, onTitleChange, onBodyChang
           {errorMessages(message)}
           <FormGroup validationState={titleInputValidationState(title.value, title.touched)}>
             <FormControl
-              ref={node => titleInput = findDOMNode(node)}
+              inputRef={node => titleInput = node}
               type='text'
               placeholder='Post title'
               name='post[title]'
@@ -27,7 +26,7 @@ const PostForm = ({ title, body, isFetching, message, onTitleChange, onBodyChang
           </FormGroup>
           <FormGroup validationState={bodyInputValidationState(body.value, body.touched)}>
             <FormControl
-              ref={node => bodyInput = findDOMNode(node)}
+              inputRef={node => bodyInput = node}
               componentClass='textarea'
               placeholder='Content'
               name='post[body]'

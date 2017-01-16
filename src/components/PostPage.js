@@ -1,7 +1,7 @@
 import React from 'react'
 import { Row, Col, Button } from 'react-bootstrap'
 
-const PostPage = ({ id, title, body, author, onDestroy }) => {
+const PostPage = ({ id, title, body, author, onDestroy, isAuthenticated }) => {
   return (
     <Row id={id} className='news-post'>
       <Col md={12}>
@@ -11,7 +11,7 @@ const PostPage = ({ id, title, body, author, onDestroy }) => {
             onDestroy(id, true)
           }}
         >
-          <span aria-hidden='true'>&times;</span>
+          {isAuthenticated && <span aria-hidden='true'>&times;</span>}
         </Button>
         <h3 className='post-title'>{title}</h3>
         <p className='post-body'>{body}</p>

@@ -1,3 +1,5 @@
+import headers from './headers'
+
 import { browserHistory } from 'react-router'
 import { refreshForm } from './PostFormActions'
 
@@ -90,9 +92,7 @@ export const addPost = (post) => {
     dispatch(addPostRequest())
     fetch(`${process.env.API_HOST}/api/v1/posts.json`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
+      headers: headers(),
       body: JSON.stringify({ post: post })
     }).then(response => {
       return response.json()
@@ -134,9 +134,7 @@ export const destroyPost = (id, shouldRedirect = false) => {
     dispatch(destroyPostRequest())
     fetch(`${process.env.API_HOST}/api/v1/posts/${id}.json`, {
       method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json'
-      },
+      headers: headers(),
       body: JSON.stringify({ id })
     }).then(response => {
       return response.json()
