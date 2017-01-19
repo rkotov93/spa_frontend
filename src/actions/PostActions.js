@@ -34,8 +34,8 @@ export const fetchPosts = () => {
     dispatch(requestPosts())
     return fetch(`${process.env.API_HOST}/api/v1/posts.json`).then((response) => {
       return response.json()
-    }).then((posts) => {
-      dispatch(receivePosts(posts || []))
+    }).then(json => {
+      dispatch(receivePosts(json.posts || []))
     })
   }
 }
@@ -59,8 +59,8 @@ export const fetchPost = (id) => {
     dispatch(fetchPostRequest())
     return fetch(`${process.env.API_HOST}/api/v1/posts/${id}.json`).then((response) => {
       return response.json()
-    }).then((post) => {
-      dispatch(fetchPostSuccess(post))
+    }).then(json => {
+      dispatch(fetchPostSuccess(json.post))
     })
   }
 }
@@ -96,11 +96,11 @@ export const addPost = (post) => {
       body: JSON.stringify({ post: post })
     }).then(response => {
       return response.json()
-    }).then(post => {
-      if (post.errors)
-        dispatch(addPostFailure(post.errors))
+    }).then(json => {
+      if (json.post.errors)
+        dispatch(addPostFailure(json.post.errors))
       else {
-        dispatch(addPostSuccess(post))
+        dispatch(addPostSuccess(json.post))
         dispatch(refreshForm())
       }
     })
@@ -138,14 +138,14 @@ export const destroyPost = (id, shouldRedirect = false) => {
       body: JSON.stringify({ id })
     }).then(response => {
       return response.json()
-    }).then(post => {
-      if (post.errors)
-        dispatch(destroyPostFailure(post.errors))
+    }).then(json => {
+      if (json.post.errors)
+        dispatch(destroyPostFailure(json.post.errors))
       else
         if (shouldRedirect)
           browserHistory.push('/')
         else
-          dispatch(destroyPostSuccess(post.id))
+          dispatch(destroyPostSuccess(json.post.id))
     })
   }
 }
