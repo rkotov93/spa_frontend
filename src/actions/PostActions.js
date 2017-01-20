@@ -4,8 +4,8 @@ import { browserHistory } from 'react-router'
 import { refreshForm } from './PostFormActions'
 
 export const postsListEnter = (dispatch) => {
-  return () => {
-    fetchPosts()(dispatch)
+  return (nextState) => {
+    fetchPosts(nextState.location.query.page)(dispatch)
   }
 }
 
@@ -21,21 +21,21 @@ const requestPosts = () => {
   }
 }
 
-const receivePosts = (posts) => {
+const receivePosts = (json) => {
   return {
     type: 'FETCH_POSTS',
     status: 'success',
-    posts
+    json
   }
 }
 
-export const fetchPosts = () => {
+export const fetchPosts = (page = 1) => {
   return (dispatch) => {
     dispatch(requestPosts())
-    return fetch(`${process.env.API_HOST}/api/v1/posts.json`).then((response) => {
+    return fetch(`${process.env.API_HOST}/api/v1/posts.json?page=${page}`).then((response) => {
       return response.json()
     }).then(json => {
-      dispatch(receivePosts(json.posts || []))
+      dispatch(receivePosts(json || []))
     })
   }
 }
@@ -148,4 +148,9 @@ export const destroyPost = (id, shouldRedirect = false) => {
           dispatch(destroyPostSuccess(json.post.id))
     })
   }
+}
+
+export const turnPage = (page) => {
+  browserHistory.push({ pathname: window.location.pathname, query: { page: page } })
+  return fetchPosts(page)
 }

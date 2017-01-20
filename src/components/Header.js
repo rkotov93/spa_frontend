@@ -2,11 +2,18 @@ import React from 'react'
 import { Link } from 'react-router'
 import LoginButton from '../components/LoginButton'
 
-const Header = ({ isAuthenticated, logout }) => {
+const Header = ({ isAuthenticated, logout, refresh }) => {
   return (
     <span>
       <h1>
-        <Link to="/">News</Link>
+        <Link
+          to="/"
+          onClick={() => {
+            refresh()
+          }}
+        >
+          News
+        </Link>
         <LoginButton
           isAuthenticated={isAuthenticated}
           logout={logout}

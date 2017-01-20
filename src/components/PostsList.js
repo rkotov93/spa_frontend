@@ -2,7 +2,9 @@ import React from 'react'
 import PostItem from '../components/PostItem'
 import PostForm from '../containers/PostForm'
 
-const PostsList = ({ posts, onDestroy, isAuthenticated }) => {
+import { Pagination } from 'react-bootstrap'
+
+const PostsList = ({ posts, onDestroy, isAuthenticated, currentPage, totalPages, turnPage }) => {
   return (
     <div>
       {
@@ -14,6 +16,17 @@ const PostsList = ({ posts, onDestroy, isAuthenticated }) => {
                    {...post} />
         })
       }
+      <Pagination
+        prev
+        next
+        first
+        last
+        ellipsis
+        boundaryLinks
+        items={totalPages}
+        maxButtons={5}
+        activePage={currentPage || 1}
+        onSelect={turnPage} />
       {isAuthenticated && <PostForm />}
     </div>
   )
