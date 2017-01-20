@@ -4,8 +4,8 @@ import { browserHistory } from 'react-router'
 import { refreshForm } from './PostFormActions'
 
 export const postsListEnter = (dispatch) => {
-  return () => {
-    fetchPosts()(dispatch)
+  return (nextState) => {
+    fetchPosts(nextState.location.query.page)(dispatch)
   }
 }
 
@@ -21,21 +21,21 @@ const requestPosts = () => {
   }
 }
 
-const receivePosts = (posts) => {
+const receivePosts = (json) => {
   return {
     type: 'FETCH_POSTS',
     status: 'success',
-    posts
+    json
   }
 }
 
-export const fetchPosts = () => {
+export const fetchPosts = (page = 1) => {
   return (dispatch) => {
     dispatch(requestPosts())
-    return fetch(`${process.env.API_HOST}/api/v1/posts.json`).then((response) => {
+    return fetch(`${process.env.API_HOST}/api/v1/posts.json?page=${page}`).then((response) => {
       return response.json()
-    }).then((posts) => {
-      dispatch(receivePosts(posts || []))
+    }).then(json => {
+      dispatch(receivePosts(json || []))
     })
   }
 }
@@ -59,8 +59,8 @@ export const fetchPost = (id) => {
     dispatch(fetchPostRequest())
     return fetch(`${process.env.API_HOST}/api/v1/posts/${id}.json`).then((response) => {
       return response.json()
-    }).then((post) => {
-      dispatch(fetchPostSuccess(post))
+    }).then(json => {
+      dispatch(fetchPostSuccess(json.post))
     })
   }
 }
@@ -96,11 +96,11 @@ export const addPost = (post) => {
       body: JSON.stringify({ post: post })
     }).then(response => {
       return response.json()
-    }).then(post => {
-      if (post.errors)
-        dispatch(addPostFailure(post.errors))
+    }).then(json => {
+      if (json.post.errors)
+        dispatch(addPostFailure(json.post.errors))
       else {
-        dispatch(addPostSuccess(post))
+        dispatch(addPostSuccess(json.post))
         dispatch(refreshForm())
       }
     })
@@ -138,14 +138,19 @@ export const destroyPost = (id, shouldRedirect = false) => {
       body: JSON.stringify({ id })
     }).then(response => {
       return response.json()
-    }).then(post => {
-      if (post.errors)
-        dispatch(destroyPostFailure(post.errors))
+    }).then(json => {
+      if (json.post.errors)
+        dispatch(destroyPostFailure(json.post.errors))
       else
         if (shouldRedirect)
           browserHistory.push('/')
         else
-          dispatch(destroyPostSuccess(post.id))
+          dispatch(destroyPostSuccess(json.post.id))
     })
   }
+}
+
+export const turnPage = (page) => {
+  browserHistory.push({ pathname: window.location.pathname, query: { page: page } })
+  return fetchPosts(page)
 }

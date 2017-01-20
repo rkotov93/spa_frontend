@@ -4,6 +4,7 @@ import { Row, Col, Button, FormGroup, FormControl } from 'react-bootstrap'
 const PostForm = ({ title, body, isFetching, message, onTitleChange, onBodyChange, onFormSubmit }) => {
   let titleInput
   let bodyInput
+  let avatarInput
 
   return (
     <Row>
@@ -36,11 +37,35 @@ const PostForm = ({ title, body, isFetching, message, onTitleChange, onBodyChang
               disabled={isFetching}
             />
           </FormGroup>
+          <FormGroup>
+            <FormControl
+              inputRef={node => avatarInput = node}
+              type="file"
+              label="file"
+            />
+          </FormGroup>
           <Button
             bsStyle='primary'
             style={{ width: '100%' }}
             onClick={() => {
-              onFormSubmit({ title: title.value, body: body.value })
+              const reader  = new FileReader()
+              const file = avatarInput.files[0]
+              reader.addEventListener('load', () => {
+                onFormSubmit({
+                  title: title.value,
+                  body: body.value,
+                  avatar: reader.result
+                })
+              }, false)
+              if (file)
+                reader.readAsDataURL(file)
+              else
+                onFormSubmit({
+                  title: title.value,
+                  body: body.value,
+                  avatar: ''
+                })
+              avatarInput.value = ''
             }}
             disabled={!(isTitleValid(title.value) && isBodyValid(body.value)) || isFetching}
           >

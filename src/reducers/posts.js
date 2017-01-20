@@ -23,7 +23,10 @@ const fetchPosts = (state, action) => {
   switch (action.status) {
   case 'success':
     return {
-      items: action.posts,
+      items: action.json.posts,
+      currentPage: action.json.meta.current_page,
+      totalPages: action.json.meta.total_pages,
+      totalCount: action.json.meta.total_count,
       isFetching: false
     }
   default:

@@ -22,10 +22,16 @@ render(
   <Provider store={store}>
     <Router history={browserHistory}>
       <Route component={App} onEnter={appInitialize(store.dispatch)}>
-        <Route path='/' components={{ main: PostsList }} onEnter={postsListEnter(store.dispatch)} />
         <Route
-          path='login' components={{ main: LoginPage }}
-          onEnter={loginPageEnter()} />
+          path='/'
+          components={{ main: PostsList }}
+          onEnter={postsListEnter(store.dispatch)}
+        />
+        <Route
+          path='login'
+          components={{ main: LoginPage }}
+          onEnter={loginPageEnter()}
+        />
         <Route path='posts/:id' components={{ main: PostPage }} onEnter={postPageEnter(store.dispatch)} />
       </Route>
       <Route path='*' component={NoMatch}/>
