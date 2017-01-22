@@ -71,14 +71,6 @@ const addPostRequest = () => {
   }
 }
 
-const addPostSuccess = (post) => {
-  return {
-    type: 'ADD_POST',
-    status: 'success',
-    post
-  }
-}
-
 const addPostFailure = (message) => {
   return {
     type: 'ADD_POST',
@@ -100,7 +92,7 @@ export const addPost = (post) => {
       if (json.post.errors)
         dispatch(addPostFailure(json.post.errors))
       else {
-        dispatch(addPostSuccess(json.post))
+        dispatch(turnPage(1))
         dispatch(refreshForm())
       }
     })
@@ -113,14 +105,6 @@ const destroyPostRequest = () => {
   }
 }
 
-const destroyPostSuccess = (id) => {
-  return {
-    type: 'DESTROY_POST',
-    status: 'success',
-    id
-  }
-}
-
 const destroyPostFailure = (message) => {
   return {
     type: 'DESTROY_POST',
@@ -129,7 +113,7 @@ const destroyPostFailure = (message) => {
   }
 }
 
-export const destroyPost = (id, shouldRedirect = false) => {
+export const destroyPost = (id, page = 1) => {
   return (dispatch) => {
     dispatch(destroyPostRequest())
     fetch(`${process.env.API_HOST}/api/v1/posts/${id}.json`, {
@@ -142,15 +126,12 @@ export const destroyPost = (id, shouldRedirect = false) => {
       if (json.post.errors)
         dispatch(destroyPostFailure(json.post.errors))
       else
-        if (shouldRedirect)
-          browserHistory.push('/')
-        else
-          dispatch(destroyPostSuccess(json.post.id))
+        dispatch(turnPage(page))
     })
   }
 }
 
 export const turnPage = (page) => {
-  browserHistory.push({ pathname: window.location.pathname, query: { page: page } })
+  browserHistory.push({ pathname: '/', query: { page: page } })
   return fetchPosts(page)
 }

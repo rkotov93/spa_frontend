@@ -11,7 +11,9 @@ const PostsList = ({ posts, onDestroy, isAuthenticated, currentPage, totalPages,
         posts.map(post => {
           return <PostItem
                    key={`post_${post.id}`}
-                   onDestroy={onDestroy}
+                   onDestroy={(id) => {
+                     onDestroy(id, currentPage)
+                   }}
                    isAuthenticated={isAuthenticated}
                    {...post} />
         })

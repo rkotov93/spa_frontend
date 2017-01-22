@@ -11,8 +11,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onDestroy: (id, shouldRedirect) => {
-      dispatch(destroyPost(id, shouldRedirect))
+    onDestroy: (id) => {
+      dispatch(destroyPost(id))
     }
   }
 }

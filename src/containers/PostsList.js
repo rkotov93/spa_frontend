@@ -13,8 +13,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onDestroy: (id) => {
-      dispatch(destroyPost(id))
+    onDestroy: (id, page) => {
+      dispatch(destroyPost(id, page))
     },
     turnPage: (page) => {
       dispatch(turnPage(page))
